@@ -109,6 +109,7 @@ public class SceneLoader : MonoBehaviour
         // Decide whether to let the scene activate until it loaded.
         _asyncOperation.allowSceneActivation = allowSceneActivation;
         _asyncOperation.completed += OnLoadCompleted;
+        _isListeningForCompletedEvent = true;
         return _asyncOperation;
     }
 
