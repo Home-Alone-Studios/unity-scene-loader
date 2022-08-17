@@ -1,0 +1,31 @@
+{
+	"name": "sceneloader.unitytools.papae.homealonestudios.com.ng",
+	"version": "0.5.0",
+	"displayName": "Scene Loader",
+	"description": "A custom scene loader inspector object that makes it really easy to load unity scenes",
+	"unity": "2021.3",
+	"unityRelease": "2f1",
+	"documentationUrl": "https://example.com/",
+	"changelogUrl": "https://example.com/changelog.html",
+	"licensesUrl": "https://example.com/licensing.html",
+	"keywords": [
+		"alone",
+		"asunc",
+		"home",
+    "loader",
+		"papae",
+		"preload",
+		"scene",
+		"ui"
+	],
+	"author": {
+		"name": "Home Alone Studios",
+		"email": "hello@homealonestudios.com.ng",
+		"url": "https://www.homealonestudios.com.ng"
+	},
+	"dependencies": {
+		"com.unity.textmeshpro": "3.0.0"
+	},
+	"samples": [
+	]
+}
