@@ -1,5 +1,5 @@
 ### Scene Loader
-A custom scene loader inspector component that makes it really easy to load unity scenes
+A custom scene loader component that makes it really easy to load unity scenes
 
 ![Scene Loader](/Promotional/inspector_component.jpg)
 
