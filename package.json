@@ -1,8 +1,8 @@
 {
-	"name": "sceneloader.unitytools.papae.homealonestudios.com.ng",
+	"name": "com.ng.homealonestudios.papae.tools.sceneloader",
 	"version": "0.5.0",
 	"displayName": "Scene Loader",
-	"description": "A custom scene loader inspector object that makes it really easy to load unity scenes",
+	"description": "A custom scene loader component that makes it really easy to load unity scenes",
 	"unity": "2021.3",
 	"unityRelease": "2f1",
 	"documentationUrl": "https://example.com/",
@@ -20,7 +20,7 @@
 	],
 	"author": {
 		"name": "Home Alone Studios",
-		"email": "hello@homealonestudios.com.ng",
+		"email": "homealonestudiosng@gmail.com",
 		"url": "https://www.homealonestudios.com.ng"
 	},
 	"dependencies": {
