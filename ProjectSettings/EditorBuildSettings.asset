@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/SceneLoader/Scenes/1.SynchronousSceneLoad/SceneLoader.unity
+    path: Assets/SceneLoader/Scenes/1.SynchronousSingleSceneLoad/SceneLoader.unity
     guid: 4afc9693cd6565f40b3d69058f9bc8d8
   - enabled: 1
-    path: Assets/SceneLoader/Scenes/1.SynchronousSceneLoad/SceneToLoad.unity
+    path: Assets/SceneLoader/Scenes/1.SynchronousSingleSceneLoad/SceneToLoad.unity
     guid: 83d48130c5fd7304993f78772baa1904
   m_configObjects: {}
