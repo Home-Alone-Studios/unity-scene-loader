@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,12 +8,76 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
     [SerializeField] SerializableScene _serializableScene;
+    [SerializeField] bool _preloadOnStart;
     [SerializeField] LoadSceneMode _loadSceneMode;
     [SerializeField] bool _useSceneManager;
-    [SerializeField] UnityEvent _onLoadComplete;
 
-    private AsyncOperation _asyncOperation = null;
-    private bool _isListeningForCompletedEvent = false;
+    [Header("Events")]
+    [SerializeField] UnityEvent _onSceneLoaded;
+    [SerializeField] UnityEvent _onSceneActivated;
+    [SerializeField] UnityEvent _onSceneUnloaded;
+
+    [SerializeField] private AsyncOperation _asyncLoadOperation = null;
+    private AsyncOperation _asyncUnloadOperation = null;
+    private bool _isListeningForLoadCompletedEvent = false;
+    private bool _isListeningForUnloadCompletedEvent = false;
+
+    private WaitForEndOfFrame _waitforEndOfFrame = new WaitForEndOfFrame();
+
+
+
+    IEnumerator Start()
+    {
+        yield return _waitforEndOfFrame;
+
+        if (_preloadOnStart)
+        {
+            PreLoadAsync();
+        }
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.activeSceneChanged += OnActiveStateChaned;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.activeSceneChanged -= OnActiveStateChaned;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        //Debug.Log($"Scene loaded: {scene.name}, {(LoadSceneMode)mode}");
+
+        if (scene == null) return;
+
+        if (scene.name == _serializableScene.SceneName)
+        {
+            _onSceneLoaded?.Invoke();
+        }
+    }
+
+    void OnSceneUnloaded(Scene scene)
+    {
+        if (scene == null) return;
+
+        //Debug.Log($"Scene unloaded: {scene.name}");
+
+        if (scene.name == _serializableScene.SceneName)
+        {
+            _onSceneUnloaded?.Invoke();
+        }
+    }
+
+    void OnActiveStateChaned(Scene oldScene, Scene newScene)
+    {
+        //Debug.Log($"Scene changed from: {oldScene.name} to {newScene.name}");
+    }
 
     void Load(LoadSceneMode loadScenMode)
     {
@@ -68,16 +133,17 @@ public class SceneLoader : MonoBehaviour
         }
         else
         {
-            if(_asyncOperation == null)
+            Debug.Log($"Async Load Operation is null = {_asyncLoadOperation == null}");
+            if(_asyncLoadOperation == null)
             {  
                 await LoadAsync(_loadSceneMode);
             }
             else
             {
-                if(_asyncOperation.progress >= 0.9f)
+                if(_asyncLoadOperation.progress >= 0.9f)
                 {
-                    _asyncOperation.allowSceneActivation = true;
-                    DisableOnCompletedListener();
+                    _asyncLoadOperation.allowSceneActivation = true;
+                    DisableOnAsyncLoadCompletedListener();
                 }
             }
         }
@@ -85,7 +151,7 @@ public class SceneLoader : MonoBehaviour
 
     public async void PreLoadAsync()
     {
-        if(_asyncOperation == null)
+        if(_asyncLoadOperation == null)
         {
             await LoadAsync(_loadSceneMode, false);
         }
@@ -96,6 +162,11 @@ public class SceneLoader : MonoBehaviour
         LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public void UnloadCurrentScene()
+    {
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+    }
+
     public void LoadScene(string sceneName, LoadSceneMode loadScenMode = LoadSceneMode.Single)
     {
         SceneManager.LoadScene(sceneName, loadScenMode);
@@ -103,50 +174,86 @@ public class SceneLoader : MonoBehaviour
 
     public async Task<AsyncOperation> LoadSceneAsync(string sceneName, LoadSceneMode loadScenMode = LoadSceneMode.Single, bool allowSceneActivation = true)
     {
-        DisableOnCompletedListener();
+        DisableOnAsyncLoadCompletedListener();
         // Begin to load the Scene you have specified.
-        _asyncOperation = SceneManager.LoadSceneAsync(sceneName, loadScenMode);
+        _asyncLoadOperation = SceneManager.LoadSceneAsync(sceneName, loadScenMode);
         // Decide whether to let the scene activate until it loaded.
-        _asyncOperation.allowSceneActivation = allowSceneActivation;
-        _asyncOperation.completed += OnLoadCompleted;
-        _isListeningForCompletedEvent = true;
-        return _asyncOperation;
+        _asyncLoadOperation.allowSceneActivation = allowSceneActivation;
+        _asyncLoadOperation.completed += OnLoadCompleted;
+        _isListeningForLoadCompletedEvent = true;
+        return _asyncLoadOperation;
     }
 
     void OnLoadCompleted(AsyncOperation asyncOperation)
     {
-        _asyncOperation = null;
-        if(_onLoadComplete != null)
+        _asyncLoadOperation = null;
+        if(_onSceneLoaded != null)
         {
-            _onLoadComplete.Invoke();
+            _onSceneLoaded.Invoke();
         }
     }
 
-    private void DisableOnCompletedListener() 
+    private void DisableOnAsyncLoadCompletedListener() 
     {
-        if(_isListeningForCompletedEvent)
+        if(_isListeningForLoadCompletedEvent)
         {   
-            if(_asyncOperation != null)
+            if(_asyncLoadOperation != null)
             {
-                _asyncOperation.completed -= OnLoadCompleted;
+                _asyncLoadOperation.completed -= OnLoadCompleted;
+                _asyncLoadOperation = null;
             }
-            _isListeningForCompletedEvent = false;
+            _isListeningForLoadCompletedEvent = false;
         }  
     }
 
     public void Unload()
     {
-        UnloadSceneAsync(_serializableScene.SceneName);
+        SceneManager.UnloadSceneAsync(_serializableScene.SceneName);
     }
 
-    public void UnloadSceneAsync(string sceneName)
+    public async void UnloadAsync()
     {
-        SceneManager.UnloadSceneAsync(sceneName, UnloadSceneOptions.None);
+        if (_asyncUnloadOperation == null)
+        {
+            await UnloadSceneAsync(_serializableScene.SceneName);
+        }
+    }
+
+    public async Task<AsyncOperation> UnloadSceneAsync(string sceneName)
+    {
+        DisableOnAsyncUnloadCompletedListener();
+        _asyncUnloadOperation = SceneManager.UnloadSceneAsync(sceneName, UnloadSceneOptions.None);
+        _asyncUnloadOperation.completed += OnAsyncUnloadCompleted;
+        _isListeningForUnloadCompletedEvent = true;
+        return _asyncUnloadOperation;
+    }
+
+    void OnAsyncUnloadCompleted(AsyncOperation asyncOperation)
+    {
+        _asyncUnloadOperation = null;
+        if (_onSceneUnloaded != null)
+        {
+            _onSceneUnloaded.Invoke();
+        }
+    }
+
+    private void DisableOnAsyncUnloadCompletedListener()
+    {
+        if (_isListeningForUnloadCompletedEvent)
+        {
+            if (_asyncUnloadOperation != null)
+            {
+                _asyncUnloadOperation.completed -= OnAsyncUnloadCompleted;
+                _asyncUnloadOperation = null;
+            }
+            _isListeningForUnloadCompletedEvent = false;
+        }
     }
 
     void OnDestroy()
     {
-        DisableOnCompletedListener();
+        DisableOnAsyncLoadCompletedListener();
+        DisableOnAsyncUnloadCompletedListener();
     }
 
     //public IEnumerator _TestLoadSceneAsync(LoadSceneMode mode = LoadSceneMode.Single)

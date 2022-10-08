@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.jeffcampbellmakesgames.packagetools": {
+      "version": "https://github.com/jeffcampbellmakesgames/unity-package-tools.git#release/stable",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "72ddf22d3b365b4084ff852b784146a2a2b87c08"
+    },
     "com.littlebigfun.addressable-importer": {
       "version": "0.12.0",
       "depth": 0,
