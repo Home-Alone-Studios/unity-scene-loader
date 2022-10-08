@@ -55,12 +55,12 @@ Coming soon.
 
 <!--
 To learn more about how to use JCMG Package Tools, see [here](./usage.md) for more information.
+-->
 
-
-## Dependencies
+## Special Thanks
 - [Scene Reference](https://github.com/roboryantron/UnityEditorJunkie#scenereference)
 
-
+<!--
 ## Contributors
 If you are interested in contributing, found a bug, or want to request a new feature, please see [here](./contributors.md) for more information.
 
