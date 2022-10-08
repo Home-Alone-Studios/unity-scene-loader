@@ -8,7 +8,7 @@
       "hash": "72ddf22d3b365b4084ff852b784146a2a2b87c08"
     },
     "com.littlebigfun.addressable-importer": {
-      "version": "0.12.0",
+      "version": "0.14.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -102,11 +102,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.addressables": {
-      "version": "1.19.19",
-      "depth": 1,
+      "version": "1.20.5",
+      "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.scriptablebuildpipeline": "1.19.6",
+        "com.unity.scriptablebuildpipeline": "1.20.2",
         "com.unity.modules.assetbundle": "1.0.0",
         "com.unity.modules.imageconversion": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0",
@@ -194,8 +194,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.scriptablebuildpipeline": {
-      "version": "1.19.6",
-      "depth": 2,
+      "version": "1.20.2",
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
