@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29f67b488b4458983fd973bbda8c8fa, type: 3}
+  m_Name: PackageManifestConfig
+  m_EditorClassIdentifier: 
+  packageSourcePaths:
+  - Assets/SceneLoader
+  packageIgnorePaths:
+  - Assets/TextMesh%20Pro
+  packageDestinationPath: Builds/release/scene-loader
+  legacyPackageDestinationPath: Builds/legacy
+  packageName: com.ng.homealonestudios.papae.tools.sceneloader
+  displayName: Scene Loader
+  packageVersion: 0.6.0
+  unityVersion: 2021.3
+  description: A custom scene loader component that makes it really easy to load
+    unity scenes
+  category: Tools
+  author:
+    name: Home Alone Studios
+    email: homealonestudiosng@gmail.com
+    url: https://www.homealonestudios.com.ng
+  keywords:
+  - alone
+  - async
+  - home
+  - loader
+  - manager
+  - papae
+  - preload
+  - scene
+  - ui
+  dependencies: []
+  versionConstantsPath: 
+  versionTemplateGuid: 
+  _id: 785d3fc7-6baf-496c-89b0-ac7a84906bf0

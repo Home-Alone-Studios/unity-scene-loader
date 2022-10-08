@@ -1,31 +1,38 @@
 {
-	"name": "com.ng.homealonestudios.papae.tools.sceneloader",
-	"version": "0.5.0",
-	"displayName": "Scene Loader",
-	"description": "A custom scene loader component that makes it really easy to load unity scenes",
-	"unity": "2021.3",
-	"unityRelease": "2f1",
-	"documentationUrl": "https://example.com/",
-	"changelogUrl": "https://example.com/changelog.html",
-	"licensesUrl": "https://example.com/licensing.html",
-	"keywords": [
-		"alone",
-		"asunc",
-		"home",
-    "loader",
-		"papae",
-		"preload",
-		"scene",
-		"ui"
-	],
 	"author": {
 		"name": "Home Alone Studios",
 		"email": "homealonestudiosng@gmail.com",
 		"url": "https://www.homealonestudios.com.ng"
 	},
+  "category": "Scene Management",
+	"changelogUrl": "https://example.com/changelog.html",
 	"dependencies": {
 		"com.unity.textmeshpro": "3.0.0"
 	},
+	"description": "A custom scene loader component that makes it really easy to load unity scenes",
+	"displayName": "Scene Loader",
+	"documentationUrl": "https://example.com/",
+	"keywords": [
+		"alone",
+		"async",
+		"home",
+		"loader",
+		"manager",
+		"papae",
+		"preload",
+		"scene",
+		"ui"
+	],
+	"licensesUrl": "https://example.com/licensing.html",
+	"name": "com.ng.homealonestudios.papae.tools.sceneloader",
 	"samples": [
-	]
+    {
+			"displayName": "Demo",
+			"description": "Shows basic use case of the tool",
+			"path": "Samples"
+		}
+  ],
+	"unity": "2021.3",
+	"unityRelease": "2f1",
+	"version": "0.6.0"
 }
